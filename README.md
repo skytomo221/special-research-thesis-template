@@ -17,7 +17,7 @@
    - GitHub で[このリポジトリ](https://github.com/skytomo221/special-research-thesis-template)を Use this template をしてから`git clone https://github.com/{Owner}/{Repository name}`（推奨）
    - `git clone https://github.com/skytomo221/special-research-thesis-template`
 
-### Visual Studio Code を用いた環境構築
+### Visual Studio Code で原稿を書く
 
 1. Visual Studio Code でクローンしてきたディレクトリを開きます
 2. 拡張機能[Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)を追加します
