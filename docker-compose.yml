@@ -1,0 +1,13 @@
+version: "3"
+services:
+  thesis:
+    build: .
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
+    command: sh -c 'latexmk -C main.tex && latexmk main.tex && latexmk -c main.tex'
+  thesis-tty:
+    build: .
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
