@@ -1,8 +1,9 @@
 \RequirePackage{plautopatch}
-\documentclass[dvipdfmx,uplatex,a4paper,10pt,oneside,onecolumn,openany]{jsbook}
+\documentclass[dvipdfmx,uplatex,a4j,10pt,oneside,twocolumn]{jsarticle}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{datetime}
+\usepackage{here}
 
 % List
 \usepackage{enumitem}
@@ -10,6 +11,15 @@
 \renewcommand{\labelitemii}{$\circ$}
 \renewcommand{\labelitemiii}{$\bullet$}
 \renewcommand{\labelitemiv}{$\circ$}
+
+% Chapter Config
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+
+% Figure and Table Name Config
+\renewcommand{\figurename}{\textsf{Fig.}}
+\renewcommand{\tablename}{\textsf{Table }}
 
 %% Font Config
 \usepackage[deluxe]{otf}
@@ -30,11 +40,14 @@
 \makeatother
 
 %% Margin Config
-\usepackage[dvipdfm,top=10zw,bottom=12zw,left=10zw,right=10zw]{geometry}
+\usepackage[top=19truemm,bottom=24truemm,left=20truemm,right=20truemm]{geometry}
 \newcommand{\parasep}{\vspace*{3zh}}
 \setlength{\footskip}{30pt}
 \renewcommand{\baselinestretch}{1.25}
 \sloppy
+\setlength{\floatsep}{0pt}
+\setlength{\textfloatsep}{5pt}
+\setlength{\intextsep}{8pt}
 
 %% Link Config
 \PassOptionsToPackage{hyphens}{url}
@@ -49,7 +62,7 @@
 
 %% Header Config
 \usepackage{fancyhdr}
-\pagestyle{fancy}
+\pagestyle{empty}
 \lhead{\gtfamily\sffamily\bfseries\upshape \leftmark}
 \chead{}
 \rhead{\gtfamily\sffamily\bfseries\upshape \rightmark}
@@ -59,51 +72,66 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 \renewcommand{\sfdefault}{phv}
-
-%% Set date
-\year2021 \relax
-\month10 \relax
+\renewcommand{\abstractname}{}
 
 %% Document Config
-\title{テスト文章}
-\author{山田 太郎}
-\date{{\the\year}年~{\the\month}月}
+\title{\huge\textgt{\input{title}}}
+\author{\input{author}\\\input{supervisor}}
+\date{}
 
 \begin{document}
-\maketitle
-
-\frontmatter
+\twocolumn[
+  \vspace{13mm}
+  \begin{abstract}
+    {\parbox[t]{150mm}{\input{abstract}}}
+  \end{abstract}
+  \maketitle
+  \center{
+    \parbox[t]{150mm}{
+      \center{
+        \normalsize{
+          \textrm{
+            \textit{
+              \textbf{Key Words:}
+              \input{keywords}
+            }
+          }
+        }
+      }
+    }
+  }
+  \thispagestyle{empty}
+  \vspace{10mm}
+]
 \setcounter{tocdepth}{2}
-\tableofcontents
-
-\mainmatter
-
-\chapter{テスト文章}
-
-Lorem ipsum\cite{loremipswikipedia:online} （ロレム・イプサム、略してリプサム lipsum ともいう）とは、出版、ウェブデザイン、グラフィックデザインなどの諸分野において使用されている典型的なダミーテキストである。
-
-\begin{quote}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-\end{quote}
-
-デカルト座標で、点 \((a, b)\) を中心とする半径 \(r\) の円は、次式の陰関数で与えられる。
-
-\begin{equation}
-(x - a)^2 + (y - b)^2 = r^2
-\label{eq:circle}\end{equation}
-
-この文章は\textbf{Paperist}\footnote{\url{https://github.com/Paperist}} （図\ref{fig:paperist}） のテストとして作成されました。
-
-\begin{figure}[tb]
-\centering
-\includegraphics[keepaspectratio=true,width=0.9\linewidth,height=0.25\paperheight]{./assets/paperist-logo.png}
-\caption{Paperist Logo}\label{fig:paperist}
-\end{figure}
-
-\backmatter
+\input{body}
 %% Bibliography
 \bibliographystyle{junsrt}
 \bibliography{index}
+%% English Title, Author, Supervisor and Abstract
+\thispagestyle{empty}
+\begin{table*}[b]
+  \begin{center}
+    \parbox[t]{150mm}{
+      \rmfamily{
+        \begin{center}
+          \large{
+            \input{title-en}
+            \\
+            \vspace{2ex}
+            \input{author-en}
+            \\
+            \input{supervisor-en}
+            \\
+          }
+        \end{center}
+        \vspace{1ex}
+        \small{
+          \hspace*{1em}
+          \input{abstract-en}
+        }
+      }
+    }
+  \end{center}
+\end{table*}
 \end{document}
