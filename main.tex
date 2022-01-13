@@ -1,9 +1,10 @@
 \RequirePackage{plautopatch}
-\documentclass[dvipdfmx,uplatex,a4j,10pt,oneside,twocolumn]{jsarticle}
+\documentclass[dvipdfmx,uplatex,a4j,10pt,oneside]{jsarticle}
+\usepackage{datetime}
+\usepackage{float}
 \usepackage{graphicx}
 \usepackage{listings}
-\usepackage{datetime}
-\usepackage{here}
+\usepackage{multicol}
 
 % List
 \usepackage{enumitem}
@@ -18,8 +19,16 @@
 \renewcommand{\thesubsubsection}{\alph{subsubsection})}
 
 % Figure and Table Name Config
-\renewcommand{\figurename}{\textsf{Fig.}}
-\renewcommand{\tablename}{\textsf{Table }}
+\renewcommand{\figurename}{Fig.~}
+\renewcommand{\tablename}{Table~}
+\makeatletter
+\def\fnum@table{{\bfseries{\sffamily\tablename\nobreak\thetable}}}
+\def\fnum@figure{{\bfseries{\sffamily\figurename\nobreak\thefigure}}}
+\makeatother
+\newcommand{\refequation}[1]{式(\ref{#1})}
+\newcommand{\reftable}[1]{{\bfseries{\sffamily{Table~\ref{#1}}}}}
+\newcommand{\reffigure}[1]{{\bfseries{\sffamily{Fig.~\ref{#1}}}}}
+\newcommand{\refcode}[1]{{\bfseries{\sffamily{Code~\ref{#1}}}}}
 
 %% Font Config
 \usepackage[deluxe]{otf}
@@ -34,13 +43,54 @@
 \cjkcategory{sym19}{cjk}
 
 %% Cites
-\usepackage{cite}
-\makeatletter
-\def\NAT@parse{\typeout{}}
-\makeatother
+\usepackage[autocite=superscript,maxnames=99,sorting=none]{biblatex}
+\addbibresource{index.bib}
+\renewcommand{\bibopenbracket}{}
+\renewcommand{\bibclosebracket}{)}
+\DeclareCiteCommand{\cite}[\mkbibsuperscript]
+  {\iffieldundef{prenote}
+     {}
+     {\BibliographyWarning{Ignoring prenote argument}}%
+   \iffieldundef{postnote}
+     {}
+     {\BibliographyWarning{Ignoring postnote argument}}%
+   \bibopenbracket}%
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {\supercitedelim}
+  {\bibclosebracket}
+\DeclareFieldFormat{url}{%
+  \mkbibacro{URL}\addcolon\space
+  \href{#1}{\nolinkurl{\thefield{urlraw}}}}
+\AtBeginBibliography{\small}
 
 %% Margin Config
 \usepackage[top=19truemm,bottom=24truemm,left=20truemm,right=20truemm]{geometry}
+\setlength\intextsep{10pt}
+\setlength\floatsep{0pt}
+\makeatletter
+\if@twocolumn
+  \renewcommand{\section}{%
+    \@startsection{section}{1}{\z@}%
+    {0.6\Cvs}{0.4\Cvs}%
+    {\normalfont\large\headfont\raggedright}}
+\else
+  \renewcommand{\section}{%
+    \if@slide\clearpage\fi
+    \@startsection{section}{1}{\z@}%
+    {0.6\Cvs}{0.4\Cvs}%
+    {\normalfont\large\headfont\raggedright}}
+\renewcommand{\subsection}{%
+  \@startsection{subsection}{2}{\z@}%
+  {0.6\Cvs}{\if@slide .4\Cvs \else \z@ \fi}%
+  {\normalfont\normalsize\headfont}
+}
+\renewcommand{\subsubsection}{%
+  \@startsection{subsubsection}{3}{\z@}%
+  {\z@}{\if@slide .4\Cvs \else \z@ \fi}%
+  {\normalfont\normalsize\headfont}
+}
+\makeatother
 
 %% Link Config
 \PassOptionsToPackage{hyphens}{url}
@@ -64,58 +114,46 @@
 \date{}
 
 \begin{document}
-\twocolumn[
-  \vspace{13mm}
-  \begin{abstract}
-    {\parbox[t]{150mm}{\input{abstract}}}
-  \end{abstract}
-  \maketitle
-  \center{
-    \parbox[t]{150mm}{
-      \center{
-        \normalsize{
-          \textrm{
-            \textit{
-              \textbf{Key Words:}
-              \input{keywords}
-            }
-          }
-        }
-      }
+\vspace{13mm}
+\maketitle
+\begin{abstract}
+  {\parbox[t]{150mm}{\input{abstract}}}
+\end{abstract}
+\vspace{1ex}
+\begin{center}
+  \parbox{150mm}{\centering
+    \textit{
+      \textbf{Key Words:}
+      \input{keywords}
     }
   }
-  \thispagestyle{empty}
-  \vspace{10mm}
-]
-\setcounter{tocdepth}{2}
-\input{body}
-%% Bibliography
-\bibliographystyle{junsrt}
-\bibliography{index}
-%% English Title, Author, Supervisor and Abstract
+\end{center}
 \thispagestyle{empty}
-\begin{table*}[b]
-  \begin{center}
-    \parbox[t]{150mm}{
-      \rmfamily{
-        \begin{center}
-          \large{
-            \input{title-en}
-            \\
-            \vspace{2ex}
-            \input{author-en}
-            \\
-            \input{supervisor-en}
-            \\
-          }
-        \end{center}
-        \vspace{1ex}
-        \small{
-          \hspace*{1em}
-          \input{abstract-en}
-        }
+\begin{multicols}{2}
+  \setcounter{tocdepth}{2}
+  \input{body}
+  %% Bibliography
+  \printbibliography[title=参考文献]
+\end{multicols}
+%% English Title, Author, Supervisor and Abstract
+\begin{center}
+  \parbox[t]{150mm}{
+    \begin{center}
+      \large{
+        \input{title-en}
+        \\
+        \vspace{2ex}
+        \input{author-en}
+        \\
+        \input{supervisor-en}
+        \\
       }
+    \end{center}
+    \vspace{1ex}
+    \small{
+      \hspace*{1em}
+      \input{abstract-en}
     }
-  \end{center}
-\end{table*}
+  }
+\end{center}
 \end{document}

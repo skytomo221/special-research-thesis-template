@@ -1,6 +1,8 @@
 FROM paperist/alpine-texlive-ja:latest
 
-RUN tlmgr install latexindent
+RUN tlmgr install \
+    biber \
+    latexindent
 RUN apk add --no-cache \
     alpine-sdk \
     perl-app-cpanminus \

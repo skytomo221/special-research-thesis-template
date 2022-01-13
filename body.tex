@@ -105,10 +105,10 @@ $\alpha\left(z\right)$
 
 \subsection{図表について}
 
-\begin{table}[tb]
+\begin{table}[H]
   \centering
   \caption{A caption on a table is put up the table. When the ti-tle is long, you have to use indent.}
-  \label{tb:example table}
+  \label{table:example table}
   \begin{tabular}{ |c|c|c|c| }
     \hline
     Sample No. & Height (m) & Wide (m) \\
@@ -120,19 +120,19 @@ $\alpha\left(z\right)$
   \end{tabular}
 \end{table}
 
-\begin{figure}[tb]
+\begin{figure}[H]
   \centering
   \includegraphics[keepaspectratio=true,width=0.9\linewidth,height=0.25\paperheight]{./assets/figure.png}
   \caption{The caption on a figure is put under the figure.}
-  \label{fig:example figure}
+  \label{figure:example figure}
 \end{figure}
 
 図表はそれらを最初に引用する文章と同じページに置くことを原則とします．
 原稿末尾にまとめたりしてはいけません．
 また，図表はそれぞれのページの上部または下部に集めてレイアウトして下さい．
 図表の横幅は，「2段ぶち抜き」あるいはこのサンプルの
-表\ref{tb:example table}や
-図\ref{fig:example figure}のように
+表\reftable{table:example table}や
+図\reffigure{figure:example figure}のように
 「1段の幅いっぱい」のいずれかとします．
 図表の幅を1段幅以下にして図表の横に本文テキストを配置することはやめて下さい．
 図表と文章本体との間には1～2行程度の空白を空けて区別を明確にします．
@@ -141,7 +141,7 @@ $\alpha\left(z\right)$
 
 図表中の文字や数式の大きさが小さくなり過ぎないように注意して下さい．
 特にキャプションの大きさ(9pt.)より小さくならないようにして下さい．
-長いキャプションは表\ref{tb:example table}のようにインデントして折り返します．
+長いキャプションは表\reftable{table:example table}のようにインデントして折り返します．
 
 \section{参考文献の引用とリスト}
 
